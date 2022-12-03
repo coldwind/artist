@@ -11,7 +11,7 @@ import (
 
 type Service struct {
 	RedisPool   *red.Pool
-	host        string
+	addr        string
 	auth        string
 	maxIdle     int
 	maxActive   int
@@ -33,7 +33,7 @@ func New(opts ...Option) *Service {
 func (r *Service) Run() {
 	r.RedisPool = &red.Pool{
 		Dial: func() (conn red.Conn, e error) {
-			rdb, err := red.Dial("tcp", r.host)
+			rdb, err := red.Dial("tcp", r.addr)
 			if err != nil {
 				ilog.Error("Redis Pool Init failure:", zap.Error(err))
 			}

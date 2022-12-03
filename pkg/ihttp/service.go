@@ -3,8 +3,8 @@ package ihttp
 import (
 	"fmt"
 	"strings"
-	"wnwdkj_ws/boot"
-	"wnwdkj_ws/pkg/logger"
+
+	"github.com/coldwind/artist/pkg/ilog"
 
 	"github.com/buaazp/fasthttprouter"
 	"github.com/valyala/fasthttp"
@@ -51,10 +51,13 @@ func (h *Service) Register(path, method string, f fasthttp.RequestHandler) {
 }
 
 // Run 启动函数
-func (h *Service) Run(args *boot.BootArgs) {
+func (h *Service) Run() {
 
-	addr := fmt.Sprintf("%s:%d", h.host, h.port)
-	logger.Info("start http server", zap.String("addr", addr))
+	var addr = ":8889"
+	if h.port != 0 {
+		addr = fmt.Sprintf("%s:%d", h.host, h.port)
+	}
+	ilog.Info("start http server", zap.String("addr", addr))
 
 	var err error = nil
 	if h.https {
@@ -64,6 +67,6 @@ func (h *Service) Run(args *boot.BootArgs) {
 	}
 
 	if err != nil {
-		logger.Error("start http server error", zap.Error(err))
+		ilog.Error("start http server error", zap.Error(err))
 	}
 }
