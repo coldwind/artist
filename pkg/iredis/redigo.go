@@ -30,7 +30,7 @@ func New(opts ...Option) *Service {
 	return s
 }
 
-func (r *Service) Run() {
+func (r *Service) Run() error {
 	r.RedisPool = &red.Pool{
 		Dial: func() (conn red.Conn, e error) {
 			rdb, err := red.Dial("tcp", r.addr)
@@ -48,6 +48,8 @@ func (r *Service) Run() {
 		MaxActive:   r.maxActive,
 		IdleTimeout: r.idleTimeout,
 	}
+
+	return nil
 }
 
 func (r *Service) Exec(cmd string, key interface{}, args ...interface{}) (interface{}, error) {

@@ -35,11 +35,11 @@ func New(opts ...Option) *Service {
 }
 
 // MysqlInit 初始化
-func (s *Service) Run() {
+func (s *Service) Run() error {
 	connArgs := fmt.Sprintf("%s:%s@(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local", s.username, s.password, s.host, s.port, s.db)
 	handle, err := gorm.Open("mysql", connArgs)
 	if err != nil {
-		return
+		return err
 	}
 
 	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
@@ -55,6 +55,8 @@ func (s *Service) Run() {
 	s.handler.DB().SetMaxIdleConns(s.maxIdle)
 	// 最大连接数
 	s.handler.DB().SetMaxOpenConns(s.maxOpen)
+
+	return nil
 }
 
 func (m *Service) Handle() *gorm.DB {
