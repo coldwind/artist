@@ -51,7 +51,7 @@ func (h *Service) Register(path, method string, f fasthttp.RequestHandler) {
 }
 
 // Run 启动函数
-func (h *Service) Run() {
+func (h *Service) Run() error {
 
 	var addr = ":8889"
 	if h.port != 0 {
@@ -69,4 +69,6 @@ func (h *Service) Run() {
 	if err != nil {
 		ilog.Error("start http server error", zap.Error(err))
 	}
+
+	return err
 }
