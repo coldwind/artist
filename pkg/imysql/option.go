@@ -22,3 +22,9 @@ func WithLimit(maxIdle, maxOpen int) Option {
 		s.maxOpen = maxOpen
 	}
 }
+
+func WithDebug(debug bool) Option {
+	return func(s *Service) {
+		s.debug = debug
+	}
+}
