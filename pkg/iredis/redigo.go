@@ -1,51 +1,56 @@
 package iredis
 
 import (
-	"wnwdkj_ws/boot"
-	"wnwdkj_ws/conf"
-	"wnwdkj_ws/pkg/logger"
+	"time"
+
+	"github.com/coldwind/artist/pkg/ilog"
 
 	red "github.com/gomodule/redigo/redis"
 	"go.uber.org/zap"
 )
 
-type RedisClass struct {
-	RedisPool *red.Pool
+type Service struct {
+	RedisPool   *red.Pool
+	host        string
+	auth        string
+	maxIdle     int
+	maxActive   int
+	idleTimeout time.Duration
 }
 
-var instance *RedisClass = nil
+type Option func(*Service)
 
-func New() *RedisClass {
-	if instance == nil {
-		instance = &RedisClass{}
+func New(opts ...Option) *Service {
+	s := &Service{}
+
+	for _, f := range opts {
+		f(s)
 	}
 
-	return instance
+	return s
 }
 
-func (r *RedisClass) Run(args *boot.BootArgs) {
-	redisConf := conf.New().GetRedisConf()
-
+func (r *Service) Run() {
 	r.RedisPool = &red.Pool{
 		Dial: func() (conn red.Conn, e error) {
-			rdb, err := red.Dial("tcp", redisConf.Host)
+			rdb, err := red.Dial("tcp", r.host)
 			if err != nil {
-				logger.Error("Redis Pool Init failure:", zap.Error(err))
+				ilog.Error("Redis Pool Init failure:", zap.Error(err))
 			}
 
-			if redisConf.Auth != "" && err == nil {
-				rdb.Do("AUTH", redisConf.Auth)
+			if r.auth != "" && err == nil {
+				rdb.Do("AUTH", r.auth)
 			}
 
 			return rdb, err
 		},
-		MaxIdle:     redisConf.MaxIdle,
-		MaxActive:   redisConf.MaxActive,
-		IdleTimeout: 0,
+		MaxIdle:     r.maxIdle,
+		MaxActive:   r.maxActive,
+		IdleTimeout: r.idleTimeout,
 	}
 }
 
-func (r *RedisClass) Exec(cmd string, key interface{}, args ...interface{}) (interface{}, error) {
+func (r *Service) Exec(cmd string, key interface{}, args ...interface{}) (interface{}, error) {
 	conn := r.RedisPool.Get()
 	if err := conn.Err(); err != nil {
 		return nil, err
@@ -64,7 +69,7 @@ func (r *RedisClass) Exec(cmd string, key interface{}, args ...interface{}) (int
 	return conn.Do(cmd, params...)
 }
 
-func (r *RedisClass) HMSetByMap(key string, hashValue map[string]interface{}) (interface{}, error) {
+func (r *Service) HMSetByMap(key string, hashValue map[string]interface{}) (interface{}, error) {
 	conn := r.RedisPool.Get()
 	if err := conn.Err(); err != nil {
 		return nil, err
@@ -79,7 +84,7 @@ func (r *RedisClass) HMSetByMap(key string, hashValue map[string]interface{}) (i
 	return conn.Do("hmset", params...)
 }
 
-func (r *RedisClass) HGetAll(key string) (map[string]string, error) {
+func (r *Service) HGetAll(key string) (map[string]string, error) {
 	conn := r.RedisPool.Get()
 	if err := conn.Err(); err != nil {
 		return nil, err
@@ -98,7 +103,7 @@ func (r *RedisClass) HGetAll(key string) (map[string]string, error) {
 	return mapRes, nil
 }
 
-func (r *RedisClass) Close() {
+func (r *Service) Close() {
 	err := r.RedisPool.Close()
-	logger.Info("redis closed", zap.Error(err))
+	ilog.Info("redis closed", zap.Error(err))
 }
