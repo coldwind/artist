@@ -1,2 +1,4 @@
 #!/bin/sh
-find . -type f -exec sed -i -e 's/foo/xxx/g' {} \;
+export LC_CTYPE=C 
+export LANG=C
+grep -rl --exclude=install.sh . | xargs sed -i "" 's/ARTIST_PROJECT_NAME/xxx/g'
