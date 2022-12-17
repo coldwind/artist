@@ -1,0 +1,7 @@
+debug: TRUE
+https: FALSE
+httpsCertFile: ""
+httpsKeyFile: ""
+httpPort: 8889
+rateLimitPerSec: 500
+rateLimitCapacity: 2000
