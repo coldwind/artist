@@ -26,10 +26,12 @@ var (
 var handle *service
 
 func init() {
-	handle = &service{}
+	handle = &service{
+		cache: map[string]interface{}{},
+	}
 }
 
-func Register(t CfgType, key, path string, data interface{}) error {
+func Load(t CfgType, key, path string, data interface{}) error {
 	cfg, err := os.ReadFile(path)
 	if err != nil {
 		ilog.Error("get cfg file error", zap.String("path", path), zap.Error(err))
