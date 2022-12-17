@@ -2,7 +2,6 @@ package main
 
 import (
 	"tool/excel2json"
-	"tool/gencode"
 
 	"github.com/desertbit/grumble"
 )
@@ -25,22 +24,6 @@ func main() {
 			src := c.Flags.String("src")
 			dst := c.Flags.String("dst")
 			excel2json.Run(src, dst)
-			return nil
-		},
-	})
-
-	app.AddCommand(&grumble.Command{
-		Name: "gencode",
-		Help: "生成基础代码工具",
-		Flags: func(f *grumble.Flags) {
-			f.String("n", "name", "./", "项目名 go.mod中的名字")
-			f.String("d", "dst", "./", "项目文件根目录")
-
-		},
-		Run: func(c *grumble.Context) error {
-			dst := c.Flags.String("dst")
-			name := c.Flags.String("name")
-			gencode.Run(name, dst)
 			return nil
 		},
 	})
