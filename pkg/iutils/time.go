@@ -1,4 +1,4 @@
-package utils
+package iutils
 
 import "time"
 
@@ -31,7 +31,6 @@ func WeekZero() int64 {
 		num = 5
 	case "Sunday":
 		num = 6
-		break
 	}
 
 	fstTime := TimeZero() - num*86400
