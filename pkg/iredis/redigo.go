@@ -68,9 +68,7 @@ func (r *Service) Exec(cmd string, key interface{}, args ...interface{}) (interf
 	params := make([]interface{}, 0)
 	params = append(params, key)
 	if len(args) > 0 {
-		for v := range args {
-			params = append(params, v)
-		}
+		params = append(params, args...)
 	}
 
 	return conn.Do(cmd, params...)
