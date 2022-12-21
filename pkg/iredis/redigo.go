@@ -31,9 +31,13 @@ func New(opts ...Option) *Service {
 }
 
 func (r *Service) Run() error {
+	var (
+		rdb red.Conn
+		err error
+	)
 	r.RedisPool = &red.Pool{
 		Dial: func() (conn red.Conn, e error) {
-			rdb, err := red.Dial("tcp", r.addr)
+			rdb, err = red.Dial("tcp", r.addr)
 			if err != nil {
 				ilog.Error("Redis Pool Init failure:", zap.Error(err))
 			}
@@ -49,7 +53,7 @@ func (r *Service) Run() error {
 		IdleTimeout: r.idleTimeout,
 	}
 
-	return nil
+	return err
 }
 
 func (r *Service) Exec(cmd string, key interface{}, args ...interface{}) (interface{}, error) {
