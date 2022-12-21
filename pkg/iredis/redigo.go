@@ -52,6 +52,7 @@ func (r *Service) Run() error {
 		MaxActive:   r.maxActive,
 		IdleTimeout: r.idleTimeout,
 	}
+	_, err = r.RedisPool.Dial()
 
 	return err
 }
