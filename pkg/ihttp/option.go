@@ -3,9 +3,9 @@ package ihttp
 import "golang.org/x/time/rate"
 
 var (
-	MethodGet     = "GET"
-	MethodPost    = "POST"
-	MethodOptions = "OPTIONS"
+	MethodGet     = "get"
+	MethodPost    = "post"
+	MethodOptions = "options"
 )
 
 func WithAddress(host string, port int) Option {

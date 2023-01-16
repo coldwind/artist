@@ -11,11 +11,11 @@ var (
 )
 
 func Get(url string, data map[string]string, header map[string]string) ([]byte, error) {
-	return Request(url, MethodGet, data, header)
+	return Request(url, "GET", data, header)
 }
 
 func Post(url string, data map[string]string, header map[string]string) ([]byte, error) {
-	return Request(url, MethodPost, data, header)
+	return Request(url, "POST", data, header)
 }
 
 func Request(url, method string, param map[string]string, header map[string]string) ([]byte, error) {
