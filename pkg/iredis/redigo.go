@@ -5,6 +5,7 @@ import (
 
 	"github.com/coldwind/artist/pkg/ilog"
 
+	"github.com/gomodule/redigo/redis"
 	red "github.com/gomodule/redigo/redis"
 	"go.uber.org/zap"
 )
@@ -47,6 +48,13 @@ func (r *Service) Run() error {
 			}
 
 			return rdb, err
+		},
+		TestOnBorrow: func(conn redis.Conn, t time.Time) error {
+			if time.Since(t) < time.Minute {
+				return nil
+			}
+			_, err := conn.Do("PING")
+			return err
 		},
 		MaxIdle:     r.maxIdle,
 		MaxActive:   r.maxActive,
