@@ -54,6 +54,7 @@ func (h *Service) RegisterWS(path string, msgType int, cb WSCallback) {
 	ws := &WS{
 		cb:      cb,
 		msgType: msgType,
+		pool:    make(map[int64]*WSClient),
 	}
 	h.router.GET(path, ws.wsHandle)
 }

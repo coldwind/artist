@@ -1,6 +1,7 @@
 package ihttp
 
 import (
+	"sync"
 	"sync/atomic"
 
 	"github.com/fasthttp/websocket"
@@ -9,14 +10,16 @@ import (
 
 type WSCallback interface {
 	OnConnect(client *WSClient)
-	OnMessage(msgType int, msg []byte)
+	OnMessage(cli *WSClient, msgType int, msg []byte)
 	OnClose()
 }
 
 type WS struct {
+	sync.Mutex
 	cb      WSCallback
 	incrId  int64
 	msgType int
+	pool    map[int64]*WSClient
 }
 
 var (
@@ -42,20 +45,36 @@ func (w *WS) wsHandle(ctx *fasthttp.RequestCtx) {
 			msgType:  w.msgType,
 		}
 		w.cb.OnConnect(cli)
+
+		// start loop write
+		go cli.LoopWrite()
+
+		// add to pool
+		w.Mutex.Lock()
+		w.pool[cli.ConnId] = cli
+		w.Mutex.Unlock()
+
+		// read message
 		for {
 			msgType, message, err := c.ReadMessage()
 			if err != nil {
 				break
 			}
-			w.cb.OnMessage(msgType, message)
+			w.cb.OnMessage(cli, msgType, message)
 		}
 	})
 
 	if cli != nil {
+		// clear client data
 		cli.Lock()
 		defer cli.Unlock()
 		cli.isClose = true
 		close(cli.sendChan)
 		w.cb.OnClose()
+
+		// delete client from pool
+		w.Mutex.Lock()
+		delete(w.pool, cli.ConnId)
+		w.Mutex.Unlock()
 	}
 }
