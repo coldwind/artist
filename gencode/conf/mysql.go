@@ -23,7 +23,7 @@ type MysqlConf struct {
 
 func (s *Handle) LoadMysql() {
 	path := fmt.Sprintf("%s/%s", s.path, "mysql.yaml")
-	err := icfg.Load(icfg.CfgTypeYaml, "mysql", path, &HttpConf{})
+	err := icfg.Load(icfg.CfgTypeYaml, "mysql", path, &MysqlConf{})
 	if err != nil {
 		ilog.Error("get yaml error", zap.String("path", path), zap.Error(err))
 	}

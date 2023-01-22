@@ -18,6 +18,10 @@ func New(etcPath string) *Handle {
 	return handler
 }
 
+func GetHandle() *Handle {
+	return handler
+}
+
 func (s *Handle) Run() {
 	s.LoadHttp()
 	s.LoadMysql()

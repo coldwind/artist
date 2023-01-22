@@ -17,7 +17,7 @@ type RedisConf struct {
 
 func (s *Handle) LoadRedis() {
 	path := fmt.Sprintf("%s/%s", s.path, "redis.yaml")
-	err := icfg.Load(icfg.CfgTypeYaml, "redis", path, &HttpConf{})
+	err := icfg.Load(icfg.CfgTypeYaml, "redis", path, &RedisConf{})
 	if err != nil {
 		ilog.Error("get yaml error", zap.String("path", path), zap.Error(err))
 	}
