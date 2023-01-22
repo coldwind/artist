@@ -9,7 +9,7 @@ import (
 )
 
 type WSCallback interface {
-	OnConnect(ctx *fasthttp.RequestCtx, client *WSClient)
+	OnConnect(ctx *fasthttp.RequestCtx, client *WSClient) error
 	OnMessage(cli *WSClient, msgType int, msg []byte)
 	OnClose()
 }
@@ -44,23 +44,24 @@ func (w *WS) wsHandle(ctx *fasthttp.RequestCtx) {
 			sendChan: make(chan []byte, 128),
 			msgType:  w.msgType,
 		}
-		w.cb.OnConnect(ctx, cli)
+		err := w.cb.OnConnect(ctx, cli)
+		if err == nil {
+			// start loop write
+			go cli.LoopWrite()
 
-		// start loop write
-		go cli.LoopWrite()
+			// add to pool
+			w.Mutex.Lock()
+			w.pool[cli.ConnId] = cli
+			w.Mutex.Unlock()
 
-		// add to pool
-		w.Mutex.Lock()
-		w.pool[cli.ConnId] = cli
-		w.Mutex.Unlock()
-
-		// read message
-		for {
-			msgType, message, err := c.ReadMessage()
-			if err != nil {
-				break
+			// read message
+			for {
+				msgType, message, err := c.ReadMessage()
+				if err != nil {
+					break
+				}
+				w.cb.OnMessage(cli, msgType, message)
 			}
-			w.cb.OnMessage(cli, msgType, message)
 		}
 	})
 
