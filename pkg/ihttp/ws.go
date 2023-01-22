@@ -9,7 +9,7 @@ import (
 )
 
 type WSCallback interface {
-	OnConnect(client *WSClient)
+	OnConnect(ctx *fasthttp.RequestCtx, client *WSClient)
 	OnMessage(cli *WSClient, msgType int, msg []byte)
 	OnClose()
 }
@@ -44,7 +44,7 @@ func (w *WS) wsHandle(ctx *fasthttp.RequestCtx) {
 			sendChan: make(chan []byte, 128),
 			msgType:  w.msgType,
 		}
-		w.cb.OnConnect(cli)
+		w.cb.OnConnect(ctx, cli)
 
 		// start loop write
 		go cli.LoopWrite()
