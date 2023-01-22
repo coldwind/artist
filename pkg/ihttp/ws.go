@@ -63,19 +63,19 @@ func (w *WS) wsHandle(ctx *fasthttp.RequestCtx) {
 				w.cb.OnMessage(cli, msgType, message)
 			}
 		}
+
+		if cli != nil {
+			// clear client data
+			cli.Lock()
+			defer cli.Unlock()
+			cli.isClose = true
+			close(cli.sendChan)
+			w.cb.OnClose(cli)
+
+			// delete client from pool
+			w.Mutex.Lock()
+			delete(w.pool, cli.ConnId)
+			w.Mutex.Unlock()
+		}
 	})
-
-	if cli != nil {
-		// clear client data
-		cli.Lock()
-		defer cli.Unlock()
-		cli.isClose = true
-		close(cli.sendChan)
-		w.cb.OnClose(cli)
-
-		// delete client from pool
-		w.Mutex.Lock()
-		delete(w.pool, cli.ConnId)
-		w.Mutex.Unlock()
-	}
 }
