@@ -11,7 +11,7 @@ import (
 type WSCallback interface {
 	OnConnect(ctx *fasthttp.RequestCtx, client *WSClient) error
 	OnMessage(cli *WSClient, msgType int, msg []byte)
-	OnClose()
+	OnClose(client *WSClient)
 }
 
 type WS struct {
