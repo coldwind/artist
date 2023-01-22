@@ -71,7 +71,7 @@ func (w *WS) wsHandle(ctx *fasthttp.RequestCtx) {
 		defer cli.Unlock()
 		cli.isClose = true
 		close(cli.sendChan)
-		w.cb.OnClose()
+		w.cb.OnClose(cli)
 
 		// delete client from pool
 		w.Mutex.Lock()
