@@ -41,6 +41,7 @@ func Start(path, name string, debug bool) {
 
 	var zapCore zapcore.Core
 	if debugEnable {
+		atomicLevel.SetLevel(zap.DebugLevel)
 		zapCore = zapcore.NewCore(encoder, zapcore.Lock(os.Stdout), atomicLevel)
 	} else {
 		zapCore = zapcore.NewCore(encoder, writer, atomicLevel)
