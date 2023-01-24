@@ -15,7 +15,7 @@ type WSCallback interface {
 }
 
 type WS struct {
-	sync.Mutex
+	sync.RWMutex
 	cb      WSCallback
 	incrId  int64
 	msgType int
@@ -50,9 +50,9 @@ func (w *WS) wsHandle(ctx *fasthttp.RequestCtx) {
 			go cli.LoopWrite()
 
 			// add to pool
-			w.Mutex.Lock()
+			w.Lock()
 			w.pool[cli.ConnId] = cli
-			w.Mutex.Unlock()
+			w.Unlock()
 
 			// read message
 			for {
@@ -69,13 +69,13 @@ func (w *WS) wsHandle(ctx *fasthttp.RequestCtx) {
 			cli.Lock()
 			defer cli.Unlock()
 			cli.isClose = true
-			close(cli.sendChan)
 			w.cb.OnClose(cli)
+			close(cli.sendChan)
 
 			// delete client from pool
-			w.Mutex.Lock()
+			w.Lock()
 			delete(w.pool, cli.ConnId)
-			w.Mutex.Unlock()
+			w.Unlock()
 		}
 	})
 }
