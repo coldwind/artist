@@ -4,9 +4,6 @@ import (
 	"fmt"
 
 	"github.com/coldwind/artist/pkg/icfg"
-	"github.com/coldwind/artist/pkg/ilog"
-
-	"go.uber.org/zap"
 )
 
 type HttpConf struct {
@@ -23,6 +20,6 @@ func (s *Handle) LoadHttp() {
 	path := fmt.Sprintf("%s/%s", s.path, "http.yaml")
 	err := icfg.Load(icfg.CfgTypeYaml, "http", path, &HttpConf{})
 	if err != nil {
-		ilog.Error("get yaml error", zap.String("path", path), zap.Error(err))
+		panic(err)
 	}
 }

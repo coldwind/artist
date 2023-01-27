@@ -4,9 +4,6 @@ import (
 	"fmt"
 
 	"github.com/coldwind/artist/pkg/icfg"
-	"github.com/coldwind/artist/pkg/ilog"
-
-	"go.uber.org/zap"
 )
 
 type MysqlConf struct {
@@ -25,6 +22,6 @@ func (s *Handle) LoadMysql() {
 	path := fmt.Sprintf("%s/%s", s.path, "mysql.yaml")
 	err := icfg.Load(icfg.CfgTypeYaml, "mysql", path, &MysqlConf{})
 	if err != nil {
-		ilog.Error("get yaml error", zap.String("path", path), zap.Error(err))
+		panic(err)
 	}
 }

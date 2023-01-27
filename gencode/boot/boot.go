@@ -19,15 +19,16 @@ type BootHandler interface {
 }
 
 func Start(etcPath string, logPath string) {
+	// load conf
+	confHandle := conf.New(etcPath)
+	confHandle.Run()
+
 	// start log
-	ilog.Start(logPath, "ARTIST_PROJECT_NAME.log", true)
+	ilog.Start(logPath, "ARTIST_PROJECT_NAME", true)
 
 	// start signal
 	go closeSignalListen()
 
-	// load conf
-	confHandle := conf.New(etcPath)
-	confHandle.Run()
 	ilog.Info("conf started")
 	model.Run(confHandle.GetMysqlConf())
 	ilog.Info("model started")
