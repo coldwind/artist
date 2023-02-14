@@ -2,9 +2,9 @@ package router
 
 import (
 	"ARTIST_PROJECT_NAME/conf"
-	"ARTIST_PROJECT_NAME/service/code"
-	"ARTIST_PROJECT_NAME/service/internal"
-	"ARTIST_PROJECT_NAME/service/middleware"
+	"ARTIST_PROJECT_NAME/service/api/code"
+	"ARTIST_PROJECT_NAME/service/api/internal"
+	"ARTIST_PROJECT_NAME/service/api/middleware"
 
 	"github.com/coldwind/artist/pkg/ihttp"
 	"github.com/coldwind/artist/pkg/ilog"

@@ -32,7 +32,7 @@ func Start(path, name string, debug bool) {
 
 	encoder := zapcore.NewConsoleEncoder(encoderConfig)
 
-	writer := getWriter(fmt.Sprintf("%s/%s.log", path, name))
+	writer := getWriter(fmt.Sprintf("%s/%s", path, name))
 
 	atomicLevel := zap.NewAtomicLevel()
 

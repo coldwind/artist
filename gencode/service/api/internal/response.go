@@ -1,8 +1,8 @@
 package internal
 
 import (
-	"ARTIST_PROJECT_NAME/service/code"
-	"ARTIST_PROJECT_NAME/service/middleware"
+	"ARTIST_PROJECT_NAME/service/api/code"
+	"ARTIST_PROJECT_NAME/service/api/middleware"
 
 	jsoniter "github.com/json-iterator/go"
 	"github.com/valyala/fasthttp"

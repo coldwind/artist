@@ -2,8 +2,8 @@ package boot
 
 import (
 	"ARTIST_PROJECT_NAME/conf"
-	"ARTIST_PROJECT_NAME/service/model"
-	"ARTIST_PROJECT_NAME/service/router"
+	"ARTIST_PROJECT_NAME/service/api/model"
+	"ARTIST_PROJECT_NAME/service/api/router"
 
 	"github.com/coldwind/artist/pkg/ilog"
 )

@@ -1,7 +1,7 @@
 package router
 
 import (
-	"ARTIST_PROJECT_NAME/service/control"
+	"ARTIST_PROJECT_NAME/service/api/control"
 )
 
 var getHandleList = map[string]*routerMethod{

@@ -1,7 +1,7 @@
 package router
 
 import (
-	"ARTIST_PROJECT_NAME/service/code"
+	"ARTIST_PROJECT_NAME/service/api/code"
 
 	"github.com/valyala/fasthttp"
 )
