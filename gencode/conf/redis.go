@@ -7,7 +7,13 @@ import (
 )
 
 type RedisConf struct {
+	Hosts []*RedisItem `yaml:"hosts"`
+}
+
+type RedisItem struct {
+	Name      string `yaml:"name"`
 	Host      string `yaml:"host"`
+	Port      int    `yaml:"port"`
 	Auth      string `yaml:"auth"`
 	MaxIdle   int    `yaml:"maxIdle"`
 	MaxActive int    `yaml:"maxActive"`

@@ -7,6 +7,11 @@ import (
 )
 
 type MysqlConf struct {
+	Hosts []*MysqlItem `yaml:"hosts"`
+}
+
+type MysqlItem struct {
+	Name     string `yaml:"name"`
 	Debug    bool   `yaml:"debug"`
 	Host     string `yaml:"host"`
 	Port     int    `yaml:"port"`

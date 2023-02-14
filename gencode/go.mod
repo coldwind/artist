@@ -7,6 +7,7 @@ require (
 	github.com/coldwind/artist/pkg/ihttp v0.0.0-20221217092107-ca05698cc9a2
 	github.com/coldwind/artist/pkg/ilog v0.0.0-20221217092107-ca05698cc9a2
 	github.com/coldwind/artist/pkg/imysql v0.0.0-20221217092107-ca05698cc9a2
+	github.com/coldwind/artist/pkg/iredis v0.0.0-20230127152427-012035721881
 	github.com/coldwind/artist/pkg/isignal v0.0.0-20221217092107-ca05698cc9a2
 	github.com/json-iterator/go v1.1.12
 	github.com/spf13/cobra v1.6.1
@@ -18,6 +19,7 @@ require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/buaazp/fasthttprouter v0.1.1 // indirect
 	github.com/go-sql-driver/mysql v1.7.0 // indirect
+	github.com/gomodule/redigo v1.8.9 // indirect
 	github.com/inconshreveable/mousetrap v1.0.1 // indirect
 	github.com/jinzhu/gorm v1.9.16 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect

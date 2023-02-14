@@ -1,4 +1,7 @@
-host: 127.0.0.1:6379
-auth: 
-maxIdle: 64
-maxActive: 1024
+hosts:
+- name: artist
+  host: 127.0.0.1
+  port: 6379
+  auth:
+  maxIdle: 64
+  maxActive: 1024

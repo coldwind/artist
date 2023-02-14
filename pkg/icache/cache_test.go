@@ -28,7 +28,7 @@ func TestCache(t *testing.T) {
 	err = itemCache.GetAny("tk", getItem)
 	t.Logf("%v,%v", getItem.C.G, err)
 	itemCache.SetInt("ti", 1, 0)
-	i, err := itemCache.GetInt("ti")
+	i, err := itemCache.GetInt("t2i")
 	t.Logf("%v,%v", i, err)
 
 }

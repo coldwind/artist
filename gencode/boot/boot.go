@@ -30,7 +30,7 @@ func Start(etcPath string, logPath string) {
 	go closeSignalListen()
 
 	ilog.Info("conf started")
-	model.Run(confHandle.GetMysqlConf())
+	model.Run(confHandle.GetMysqlConf(), confHandle.GetRedisConf())
 	ilog.Info("model started")
 	route := router.New(confHandle.GetHttpConf())
 	route.Run()
