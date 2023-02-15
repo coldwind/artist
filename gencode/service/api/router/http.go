@@ -46,20 +46,19 @@ func (h *HttpRouter) Run() {
 
 func (h *HttpRouter) Register() {
 	for path := range getHandleList {
-		h.handle.Register(path, ihttp.MethodOptions, h.options)
 		h.handle.Register(path, ihttp.MethodGet, h.PrepareCall)
 		ilog.Info("register", zap.String("path", path), zap.String("method", ihttp.MethodGet))
 
 	}
 
 	for path := range postHandleList {
-		h.handle.Register(path, ihttp.MethodOptions, h.options)
 		h.handle.Register(path, ihttp.MethodPost, h.PrepareCall)
 		ilog.Info("register", zap.String("path", path), zap.String("method", ihttp.MethodPost))
 	}
 }
 
 func (h *HttpRouter) PrepareCall(ctx *fasthttp.RequestCtx) {
+	h.options(ctx)
 	path := string(ctx.URI().Path())
 	method := string(ctx.Request.Header.Method())
 
