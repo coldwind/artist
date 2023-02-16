@@ -7,7 +7,8 @@ import (
 )
 
 type HttpConf struct {
-	Debug              bool   `yaml:"debug"`
+	EnableStdout       bool   `yaml:"enableStdout"`
+	EnableDebug        bool   `yaml:"enableDebug"`
 	Https              bool   `yaml:"https"`
 	HttpsCertFile      string `yaml:"httpsCertFile"`
 	HttpsKeyFile       string `yaml:"httpsKeyFile"`

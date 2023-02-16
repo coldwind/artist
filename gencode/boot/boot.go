@@ -24,7 +24,7 @@ func Start(etcPath string, logPath string) {
 	confHandle.Run()
 
 	// start log
-	ilog.Start(logPath, "ARTIST_PROJECT_NAME", true)
+	ilog.Start(logPath, "ARTIST_PROJECT_NAME", confHandle.GetHttpConf().EnableDebug, confHandle.GetHttpConf().EnableStdout)
 
 	// start signal
 	go closeSignalListen()

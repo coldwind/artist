@@ -10,8 +10,8 @@ github.com/coldwind/artist/pkg/icfg v0.0.0-20221217092107-ca05698cc9a2 h1:OjoiOD
 github.com/coldwind/artist/pkg/icfg v0.0.0-20221217092107-ca05698cc9a2/go.mod h1:u8yKKqWMSCYVemmEqDWACecca/ftsprTW7WoX/3qlX0=
 github.com/coldwind/artist/pkg/ihttp v0.0.0-20221217092107-ca05698cc9a2 h1:WO80uvZklkbBfc4yfpZllTZ1sSs39E/TB5IwE8qT9lc=
 github.com/coldwind/artist/pkg/ihttp v0.0.0-20221217092107-ca05698cc9a2/go.mod h1:fq+5hC8Ouue60K+gMfA5MJQk8Xuxz/SJzBeNAtkVcY8=
-github.com/coldwind/artist/pkg/ilog v0.0.0-20221217092107-ca05698cc9a2 h1:t/k/DvsTFqldGkYe3ZPqihoF8WLUrKGmlBNm87r8ufE=
-github.com/coldwind/artist/pkg/ilog v0.0.0-20221217092107-ca05698cc9a2/go.mod h1:dfFqTiTtqMjITevSsPRRfs2PgIKeOsYF4iNciPiPB+U=
+github.com/coldwind/artist/pkg/ilog v0.0.0-20230216141910-d6ae237fc820 h1:1SO9yhqjOMuiYHyoLUmoQ0OITqwnWv39OtlkjCtZ2vU=
+github.com/coldwind/artist/pkg/ilog v0.0.0-20230216141910-d6ae237fc820/go.mod h1:dfFqTiTtqMjITevSsPRRfs2PgIKeOsYF4iNciPiPB+U=
 github.com/coldwind/artist/pkg/imysql v0.0.0-20221217092107-ca05698cc9a2 h1:XuiHK6nfogqdWWy4gan+W46mXqtCSxZuUIbTiQoc2+I=
 github.com/coldwind/artist/pkg/imysql v0.0.0-20221217092107-ca05698cc9a2/go.mod h1:pXhQdb7Ll+8WIS0bYMPMhObbQlNPeOO4AsGFRGa8XTs=
 github.com/coldwind/artist/pkg/iredis v0.0.0-20230127152427-012035721881 h1:w+8ZEMJwy3mrp1uSjuwanHQ9q0k8OdoLu6dkyyJHeNo=

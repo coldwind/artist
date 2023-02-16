@@ -1,4 +1,5 @@
-debug: TRUE
+enableDebug: TRUE
+enableStdout: TRUE
 https: FALSE
 httpsCertFile: ""
 httpsKeyFile: ""

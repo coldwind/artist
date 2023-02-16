@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/coldwind/artist/pkg/icfg v0.0.0-20221217092107-ca05698cc9a2
 	github.com/coldwind/artist/pkg/ihttp v0.0.0-20221217092107-ca05698cc9a2
-	github.com/coldwind/artist/pkg/ilog v0.0.0-20221217092107-ca05698cc9a2
+	github.com/coldwind/artist/pkg/ilog v0.0.0-20230216141910-d6ae237fc820
 	github.com/coldwind/artist/pkg/imysql v0.0.0-20221217092107-ca05698cc9a2
 	github.com/coldwind/artist/pkg/iredis v0.0.0-20230127152427-012035721881
 	github.com/coldwind/artist/pkg/isignal v0.0.0-20221217092107-ca05698cc9a2
