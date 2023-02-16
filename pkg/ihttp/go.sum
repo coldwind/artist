@@ -6,6 +6,8 @@ github.com/buaazp/fasthttprouter v0.1.1 h1:4oAnN0C3xZjylvZJdP35cxfclyn4TYkW6Y+DS
 github.com/buaazp/fasthttprouter v0.1.1/go.mod h1:h/Ap5oRVLeItGKTVBb+heQPks+HdIUtGmI4H5WCYijM=
 github.com/coldwind/artist/pkg/ilog v0.0.0-20221203133813-a2b3eec7542f h1:xYALjhBno/RjkQr+fzdXh8EUQihCMd6WCh64lryiPxw=
 github.com/coldwind/artist/pkg/ilog v0.0.0-20221203133813-a2b3eec7542f/go.mod h1:dfFqTiTtqMjITevSsPRRfs2PgIKeOsYF4iNciPiPB+U=
+github.com/coldwind/artist/pkg/ilog v0.0.0-20230215073917-9b3c6e456de4 h1:8rLB6UKUlCeM3VWL6AJxwz+wf3FVb69EqZhFe1uOc9s=
+github.com/coldwind/artist/pkg/ilog v0.0.0-20230215073917-9b3c6e456de4/go.mod h1:dfFqTiTtqMjITevSsPRRfs2PgIKeOsYF4iNciPiPB+U=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

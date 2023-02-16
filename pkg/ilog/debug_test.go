@@ -7,6 +7,6 @@ import (
 )
 
 func TestDebug(t *testing.T) {
-	Start("/tmp/", "debug", true)
+	Start("/tmp/", "debug", true, true)
 	Debug("debug msg", zap.Int64("value", 12345))
 }

@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/buaazp/fasthttprouter v0.1.1
-	github.com/coldwind/artist/pkg/ilog v0.0.0-20221203133813-a2b3eec7542f
+	github.com/coldwind/artist/pkg/ilog v0.0.0-20230215073917-9b3c6e456de4
 	github.com/valyala/fasthttp v1.43.0
 	go.uber.org/zap v1.24.0
 	golang.org/x/time v0.2.0

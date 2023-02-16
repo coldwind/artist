@@ -15,7 +15,7 @@ type WsCallback struct {
 var cb = &WsCallback{}
 
 func TestWs(t *testing.T) {
-	ilog.Start("/tmp/", "ARTIST_PROJECT_NAME.log", true)
+	ilog.Start("/tmp/", "ARTIST_PROJECT_NAME.log", true, true)
 
 	handle := New(
 		WithAddress("", 8899),

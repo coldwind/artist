@@ -11,10 +11,7 @@ import (
 
 var zapLog *zap.Logger
 
-var debugEnable = false
-
-func Start(path, name string, debug bool) {
-	debugEnable = debug
+func Start(path, name string, debug bool, stdout bool) {
 	encoderConfig := zapcore.EncoderConfig{
 		TimeKey:        "time",
 		LevelKey:       "level",
@@ -40,8 +37,10 @@ func Start(path, name string, debug bool) {
 	atomicLevel.SetLevel(level)
 
 	var zapCore zapcore.Core
-	if debugEnable {
+	if debug {
 		atomicLevel.SetLevel(zap.DebugLevel)
+	}
+	if stdout {
 		zapCore = zapcore.NewCore(encoder, zapcore.Lock(os.Stdout), atomicLevel)
 	} else {
 		zapCore = zapcore.NewCore(encoder, writer, atomicLevel)
