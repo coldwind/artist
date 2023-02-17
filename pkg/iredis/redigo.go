@@ -56,6 +56,7 @@ func (r *Service) Run() error {
 			_, err := conn.Do("PING")
 			return err
 		},
+		Wait:        true,
 		MaxIdle:     r.maxIdle,
 		MaxActive:   r.maxActive,
 		IdleTimeout: r.idleTimeout,

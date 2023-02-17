@@ -17,7 +17,7 @@ func WithAuth(auth string) Option {
 	}
 }
 
-func WithLimit(maxIdle, maxActive int, timeout time.Duration) Option {
+func WithLimit(maxIdle, maxActive int) Option {
 	return func(s *Service) {
 		s.maxIdle = maxIdle
 		s.maxActive = maxActive

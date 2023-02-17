@@ -46,7 +46,7 @@ func initRedis(redisConf *conf.RedisConf) {
 		redisHandles[cfg.Name] = iredis.New(
 			iredis.WithConnection(cfg.Host, cfg.Port),
 			iredis.WithAuth(cfg.Auth),
-			iredis.WithLimit(cfg.MaxIdle, cfg.MaxActive, 0),
+			iredis.WithLimit(cfg.MaxIdle, cfg.MaxActive),
 		)
 	}
 
