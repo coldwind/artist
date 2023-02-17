@@ -36,3 +36,11 @@ func New(provider ProviderType, config *Config) *Service {
 
 	return s
 }
+
+func (s *Service) Send(phone string, message []string) (string, error) {
+	return s.p.Send(phone, message)
+}
+
+func (s *Service) SendMultiple(phones []string, message []string) (string, error) {
+	return s.p.SendMultiple(phones, message)
+}
