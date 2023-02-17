@@ -50,9 +50,6 @@ func (r *Service) Run() error {
 			return rdb, err
 		},
 		TestOnBorrow: func(conn redis.Conn, t time.Time) error {
-			if time.Since(t) < time.Minute {
-				return nil
-			}
 			_, err := conn.Do("PING")
 			return err
 		},
