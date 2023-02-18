@@ -29,3 +29,9 @@ func WithTimeout(timeout time.Duration) Option {
 		s.idleTimeout = timeout
 	}
 }
+
+func WithWait(wait bool) Option {
+	return func(s *Service) {
+		s.wait = wait
+	}
+}

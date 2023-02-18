@@ -16,13 +16,16 @@ type Service struct {
 	auth        string
 	maxIdle     int
 	maxActive   int
+	wait        bool
 	idleTimeout time.Duration
 }
 
 type Option func(*Service)
 
 func New(opts ...Option) *Service {
-	s := &Service{}
+	s := &Service{
+		wait: true,
+	}
 
 	for _, f := range opts {
 		f(s)
@@ -53,7 +56,7 @@ func (r *Service) Run() error {
 			_, err := conn.Do("PING")
 			return err
 		},
-		Wait:        true,
+		Wait:        r.wait,
 		MaxIdle:     r.maxIdle,
 		MaxActive:   r.maxActive,
 		IdleTimeout: r.idleTimeout,
