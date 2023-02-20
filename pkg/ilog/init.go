@@ -16,7 +16,7 @@ func Start(path, name string, debug bool, stdout bool) {
 		TimeKey:        "time",
 		LevelKey:       "level",
 		NameKey:        "logger",
-		CallerKey:      "linenum",
+		CallerKey:      "caller",
 		MessageKey:     "msg",
 		StacktraceKey:  "stacktrace",
 		LineEnding:     zapcore.DefaultLineEnding,
@@ -46,7 +46,9 @@ func Start(path, name string, debug bool, stdout bool) {
 		zapCore = zapcore.NewCore(encoder, writer, atomicLevel)
 
 	}
-	zapLog = zap.New(zapCore)
+
+	caller := zap.AddCaller()
+	zapLog = zap.New(zapCore, caller)
 }
 
 func getWriter(filename string) zapcore.WriteSyncer {
