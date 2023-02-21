@@ -1,11 +1,14 @@
 package ihttp
 
 import (
+	"runtime/debug"
 	"sync"
 	"sync/atomic"
 
+	"github.com/coldwind/artist/pkg/ilog"
 	"github.com/fasthttp/websocket"
 	"github.com/valyala/fasthttp"
+	"go.uber.org/zap"
 )
 
 type WSCallback interface {
@@ -36,6 +39,12 @@ var (
 )
 
 func (w *WS) wsHandle(ctx *fasthttp.RequestCtx) {
+	defer func() {
+		if e := recover(); e != nil {
+			ilog.Error("[panic]", zap.String("stack", string(debug.Stack())))
+		}
+	}()
+
 	var cli *WSClient = nil
 	upgrader.Upgrade(ctx, func(c *websocket.Conn) {
 		cli = &WSClient{
