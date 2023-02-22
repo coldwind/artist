@@ -48,7 +48,8 @@ func Start(path, name string, debug bool, stdout bool) {
 	}
 
 	caller := zap.AddCaller()
-	zapLog = zap.New(zapCore, caller)
+	callerSkip := zap.AddCallerSkip(1)
+	zapLog = zap.New(zapCore, caller, callerSkip)
 }
 
 func getWriter(filename string) zapcore.WriteSyncer {
