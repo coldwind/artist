@@ -29,6 +29,15 @@ func StringToInt(num string) (int, error) {
 	return int(dec.IntPart()), nil
 }
 
+func StringToUint64(num string) (uint64, error) {
+	dec, err := decimal.NewFromString(num)
+	if err != nil {
+		return 0, err
+	}
+
+	return uint64(dec.IntPart()), nil
+}
+
 func StringToFloat64(num string) float64 {
 	dec, err := decimal.NewFromString(num)
 	if err != nil {
