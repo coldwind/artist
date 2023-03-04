@@ -14,8 +14,12 @@ github.com/coldwind/artist/pkg/ilog v0.0.0-20230216141910-d6ae237fc820 h1:1SO9yh
 github.com/coldwind/artist/pkg/ilog v0.0.0-20230216141910-d6ae237fc820/go.mod h1:dfFqTiTtqMjITevSsPRRfs2PgIKeOsYF4iNciPiPB+U=
 github.com/coldwind/artist/pkg/imysql v0.0.0-20221217092107-ca05698cc9a2 h1:XuiHK6nfogqdWWy4gan+W46mXqtCSxZuUIbTiQoc2+I=
 github.com/coldwind/artist/pkg/imysql v0.0.0-20221217092107-ca05698cc9a2/go.mod h1:pXhQdb7Ll+8WIS0bYMPMhObbQlNPeOO4AsGFRGa8XTs=
+github.com/coldwind/artist/pkg/imysql v0.0.0-20230301031230-5acab245900e h1:2BmBAJVyieDtnvWc8iFaWBw40VRr3gW00JUndDlpmJc=
+github.com/coldwind/artist/pkg/imysql v0.0.0-20230301031230-5acab245900e/go.mod h1:pXhQdb7Ll+8WIS0bYMPMhObbQlNPeOO4AsGFRGa8XTs=
 github.com/coldwind/artist/pkg/iredis v0.0.0-20230127152427-012035721881 h1:w+8ZEMJwy3mrp1uSjuwanHQ9q0k8OdoLu6dkyyJHeNo=
 github.com/coldwind/artist/pkg/iredis v0.0.0-20230127152427-012035721881/go.mod h1:2uY5twHxgijyfGnbRNS56jaNZZsUGeDynu4ly0CKD+w=
+github.com/coldwind/artist/pkg/iredis v0.0.0-20230301031230-5acab245900e h1:pA1w3ocI7Wvp8wMiL90XGv2tG24oI30MFHeE4K/7z7A=
+github.com/coldwind/artist/pkg/iredis v0.0.0-20230301031230-5acab245900e/go.mod h1:2uY5twHxgijyfGnbRNS56jaNZZsUGeDynu4ly0CKD+w=
 github.com/coldwind/artist/pkg/isignal v0.0.0-20221217092107-ca05698cc9a2 h1:P1eRu8gyhUfZuLYBx9ILX1rRfn32Mf7XLhNjeNlAU7Q=
 github.com/coldwind/artist/pkg/isignal v0.0.0-20221217092107-ca05698cc9a2/go.mod h1:6kklOxqBUa62witsw3P7h/ZQSfy2I+3ZchWuqbXB50g=
 github.com/cpuguy83/go-md2man/v2 v2.0.2/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
