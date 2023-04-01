@@ -47,6 +47,11 @@ func (w *WS) wsHandle(ctx *fasthttp.RequestCtx) {
 
 	var cli *WSClient = nil
 	upgrader.Upgrade(ctx, func(c *websocket.Conn) {
+		defer func() {
+			if e := recover(); e != nil {
+				ilog.Error("[panic]", zap.String("stack", string(debug.Stack())))
+			}
+		}()
 		cli = &WSClient{
 			ConnId:   atomic.AddInt64(&w.incrId, 1),
 			conn:     c,

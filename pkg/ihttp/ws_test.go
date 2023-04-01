@@ -3,6 +3,7 @@ package ihttp
 import (
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/coldwind/artist/pkg/ilog"
 	"github.com/fasthttp/websocket"
@@ -36,7 +37,8 @@ func (w *WsCallback) OnConnect(ctx *fasthttp.RequestCtx, client *WSClient) error
 
 func (w *WsCallback) OnMessage(client *WSClient, msgType int, msg []byte) {
 	fmt.Println("OnMessage")
-
+	time.Sleep(3 * time.Second)
+	panic("111")
 }
 
 func (w *WsCallback) OnClose(client *WSClient) {
