@@ -3,11 +3,8 @@ package imysql
 import (
 	"fmt"
 
-	"github.com/coldwind/artist/pkg/ilog"
-
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
-	"go.uber.org/zap"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 type Service struct {
@@ -36,25 +33,29 @@ func New(opts ...Option) *Service {
 
 // MysqlInit 初始化
 func (s *Service) Run() error {
-	connArgs := fmt.Sprintf("%s:%s@(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local", s.username, s.password, s.host, s.port, s.db)
-	handle, err := gorm.Open("mysql", connArgs)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local",
+		s.username,
+		s.password,
+		s.host,
+		s.port,
+		s.db)
+	handle, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return err
 	}
 
-	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
-		return s.prefix + defaultTableName
+	if db, err := handle.DB(); err == nil {
+		db.SetMaxIdleConns(s.maxIdle)
+		db.SetMaxOpenConns(s.maxOpen)
+	} else {
+		return err
 	}
 
 	if s.debug {
-		handle.LogMode(true)
+		handle = handle.Debug()
 	}
-	s.handler = handle
 
-	// 最大空闲连接数
-	s.handler.DB().SetMaxIdleConns(s.maxIdle)
-	// 最大连接数
-	s.handler.DB().SetMaxOpenConns(s.maxOpen)
+	s.handler = handle
 
 	return nil
 }
@@ -64,6 +65,4 @@ func (m *Service) Handle() *gorm.DB {
 }
 
 func (m *Service) Close() {
-	err := m.handler.Close()
-	ilog.Info("gorm closed", zap.Error(err))
 }
