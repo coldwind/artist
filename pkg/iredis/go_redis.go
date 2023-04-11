@@ -14,7 +14,9 @@ type Service struct {
 type Option func(*Service)
 
 func New(opts ...Option) *Service {
-	s := &Service{}
+	s := &Service{
+		option: &redis.Options{},
+	}
 
 	for _, f := range opts {
 		f(s)
