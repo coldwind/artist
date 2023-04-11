@@ -7,31 +7,37 @@ import (
 
 func WithConnection(host string, port int) Option {
 	return func(s *Service) {
-		s.addr = fmt.Sprintf("%s:%d", host, port)
+		s.option.Addr = fmt.Sprintf("%s:%d", host, port)
 	}
 }
 
 func WithAuth(auth string) Option {
 	return func(s *Service) {
-		s.auth = auth
+		s.option.Password = auth
 	}
 }
 
-func WithLimit(maxIdle, maxActive int) Option {
+func WithLimit(minIdle, maxIdle int) Option {
 	return func(s *Service) {
-		s.maxIdle = maxIdle
-		s.maxActive = maxActive
+		s.option.MinIdleConns = minIdle
+		s.option.MaxIdleConns = maxIdle
 	}
 }
 
-func WithTimeout(timeout time.Duration) Option {
+func WithReadTimeout(timeout time.Duration) Option {
 	return func(s *Service) {
-		s.idleTimeout = timeout
+		s.option.ReadTimeout = timeout
 	}
 }
 
-func WithWait(wait bool) Option {
+func WithWriteTimeout(timeout time.Duration) Option {
 	return func(s *Service) {
-		s.wait = wait
+		s.option.WriteTimeout = timeout
+	}
+}
+
+func WithDialTimeout(timeout time.Duration) Option {
+	return func(s *Service) {
+		s.option.DialTimeout = timeout
 	}
 }
