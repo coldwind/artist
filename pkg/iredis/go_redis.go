@@ -2,6 +2,7 @@ package iredis
 
 import (
 	"context"
+	"errors"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -28,7 +29,12 @@ func New(opts ...Option) *Service {
 func (r *Service) Run() error {
 	r.handle = redis.NewClient(r.option)
 
-	return r.handle.Get(context.Background(), "go-redis-testkey").Err()
+	err := r.handle.Get(context.Background(), "go-redis-testkey").Err()
+	if errors.Is(err, redis.Nil) {
+		return nil
+	}
+
+	return err
 }
 
 func (r *Service) GetConn() *redis.Client {
