@@ -14,6 +14,7 @@ import (
 
 type Service struct {
 	router        *fasthttprouter.Router
+	server        *fasthttp.Server
 	rateLimiter   *rate.Limiter
 	https         bool
 	httpsCertFile string
@@ -30,6 +31,8 @@ func New(opts ...Option) *Service {
 	r := &Service{
 		router: fasthttprouter.New(),
 	}
+	r.server = &fasthttp.Server{}
+	r.server.Handler = r.router.Handler
 	for _, f := range opts {
 		f(r)
 	}
@@ -70,9 +73,9 @@ func (h *Service) Run() error {
 
 	var err error = nil
 	if h.https {
-		err = fasthttp.ListenAndServeTLS(addr, h.httpsCertFile, h.httpsKeyFile, h.router.Handler)
+		err = h.server.ListenAndServeTLS(addr, h.httpsCertFile, h.httpsKeyFile)
 	} else {
-		err = fasthttp.ListenAndServe(addr, h.router.Handler)
+		err = h.server.ListenAndServe(addr)
 	}
 
 	if err != nil {

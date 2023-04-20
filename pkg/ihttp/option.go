@@ -30,3 +30,9 @@ func WithCertificate(cert, key string) Option {
 		}
 	}
 }
+
+func WithMaxBodySize(size int) Option {
+	return func(opt *Service) {
+		opt.server.MaxRequestBodySize = size
+	}
+}
