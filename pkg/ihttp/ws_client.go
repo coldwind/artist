@@ -40,5 +40,6 @@ func (w *WSClient) Send(msg []byte) {
 	select {
 	case w.sendChan <- msg:
 	case <-time.After(2 * time.Second):
+		ilog.Info("send chan time out")
 	}
 }
