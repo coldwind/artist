@@ -81,10 +81,12 @@ func (w *WS) wsHandle(ctx *fasthttp.RequestCtx) {
 		if cli != nil {
 			// clear client data
 			cli.Lock()
-			defer cli.Unlock()
 			cli.isClose = true
-			w.cb.OnClose(cli)
 			close(cli.sendChan)
+			defer func() {
+				cli.Unlock()
+				w.cb.OnClose(cli)
+			}()
 
 			// delete client from pool
 			w.Lock()
