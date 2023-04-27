@@ -2,10 +2,12 @@ package iutils
 
 import (
 	"crypto/md5"
+	crand "crypto/rand"
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
 	"math"
+	"math/big"
 	"math/rand"
 	"net"
 	"strconv"
@@ -48,6 +50,13 @@ func Rand(min int32, max int32) int32 {
 	randNum := rand.Int31n(n) + min
 
 	return randNum
+}
+
+// [min, max)
+func RealRand(min, max int64) int64 {
+	num := max - min
+	randNum, _ := crand.Int(crand.Reader, big.NewInt(num))
+	return randNum.Int64()
 }
 
 // BytesToInt32Array bytes转为int32数组
