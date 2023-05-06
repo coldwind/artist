@@ -15,6 +15,7 @@ type Service struct {
 	password string
 	db       string
 	prefix   string
+	charset  string
 	debug    bool
 	maxIdle  int
 	maxOpen  int
@@ -33,12 +34,16 @@ func New(opts ...Option) *Service {
 
 // MysqlInit 初始化
 func (s *Service) Run() error {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local",
+	if s.charset == "" {
+		s.charset = "utf8"
+	}
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&parseTime=True&loc=Local",
 		s.username,
 		s.password,
 		s.host,
 		s.port,
-		s.db)
+		s.db,
+		s.charset)
 	handle, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return err

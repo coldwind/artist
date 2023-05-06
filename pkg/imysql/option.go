@@ -23,6 +23,12 @@ func WithLimit(maxIdle, maxOpen int) Option {
 	}
 }
 
+func WithCharset(charset string) Option {
+	return func(s *Service) {
+		s.charset = charset
+	}
+}
+
 func WithDebug(debug bool) Option {
 	return func(s *Service) {
 		s.debug = debug
