@@ -7,6 +7,7 @@ import (
 type IProvider interface {
 	Init(*Config)
 	PutFromStream(string, string, io.Reader, int64) (string, error)
+	Remove(string, string) error
 }
 
 type Service struct {
@@ -41,4 +42,8 @@ func New(provider ProviderType, config *Config) *Service {
 
 func (s *Service) PutFromStream(bucket, path string, stream io.Reader, size int64) (string, error) {
 	return s.p.PutFromStream(bucket, path, stream, size)
+}
+
+func (s *Service) Remove(bucket, path string) error {
+	return s.p.Remove(bucket, path)
 }

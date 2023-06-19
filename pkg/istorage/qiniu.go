@@ -44,3 +44,14 @@ func (q *QiniuCloud) PutFromStream(bucket, path string, stream io.Reader, size i
 	}
 	return ret.Hash, nil
 }
+
+func (q *QiniuCloud) Remove(bucket, path string) error {
+	mac := qbox.NewMac(q.accessKey, q.secretKey)
+	cfg := storage.Config{}
+	// 是否使用https域名
+	cfg.UseHTTPS = q.useHTTPS
+	// 上传是否使用CDN上传加速
+	cfg.UseCdnDomains = q.useCdnDomains
+	bucketManage := storage.NewBucketManager(mac, &cfg)
+	return bucketManage.Delete(bucket, path)
+}
