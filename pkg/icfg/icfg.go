@@ -35,6 +35,7 @@ func Load(t CfgType, key, path string, data interface{}) error {
 	cfg, err := os.ReadFile(path)
 	if err != nil {
 		ilog.Error("get cfg file error", zap.String("path", path), zap.Error(err))
+		return err
 	}
 
 	err = errors.New("register failure")
