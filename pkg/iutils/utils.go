@@ -59,6 +59,18 @@ func RealRand(min, max int64) int64 {
 	return randNum.Int64() + min
 }
 
+func RealRandInt(min, max int) int {
+	num := max - min
+	randNum, _ := crand.Int(crand.Reader, big.NewInt(int64(num)))
+	return int(randNum.Int64()) + min
+}
+
+func RealRandInt32(min, max int32) int32 {
+	num := max - min
+	randNum, _ := crand.Int(crand.Reader, big.NewInt(int64(num)))
+	return int32(randNum.Int64()) + min
+}
+
 // BytesToInt32Array bytes转为int32数组
 func BytesToInt32Array(byteData []byte) []uint32 {
 	byteLen := len(byteData)
