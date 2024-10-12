@@ -2,6 +2,8 @@ package icfg
 
 import (
 	"errors"
+	"io"
+	"net/http"
 	"os"
 	"sync"
 
@@ -48,6 +50,47 @@ func Load(t CfgType, key, path string, data interface{}) error {
 		err = jsoniter.Unmarshal(cfg, data)
 		if err != nil {
 			ilog.Error("json Unmarshal file error", zap.String("path", path), zap.Error(err))
+		}
+	}
+
+	if err != nil {
+		return err
+	}
+
+	handle.Lock()
+	defer handle.Unlock()
+
+	handle.cache[key] = data
+
+	return nil
+}
+
+func LoadRemote(t CfgType, key, url string, data interface{}) error {
+	// 发送HTTP GET请求
+	resp, err := http.Get(url)
+	if err != nil {
+		// 处理错误
+		panic(err)
+	}
+	defer resp.Body.Close() // 确保关闭响应体
+
+	// 读取响应体的内容
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		// 处理错误
+		return err
+
+	}
+
+	if t == CfgTypeYaml {
+		err = yaml.Unmarshal(body, data)
+		if err != nil {
+			ilog.Error("yaml Unmarshal file error", zap.String("url", url), zap.Error(err))
+		}
+	} else if t == CfgTypeJson {
+		err = jsoniter.Unmarshal(body, data)
+		if err != nil {
+			ilog.Error("json Unmarshal file error", zap.String("url", url), zap.Error(err))
 		}
 	}
 
