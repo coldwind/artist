@@ -2,6 +2,9 @@ package ihttp
 
 import (
 	"errors"
+	"fmt"
+	"io"
+	"net/http"
 
 	"github.com/valyala/fasthttp"
 )
@@ -11,7 +14,39 @@ var (
 )
 
 func Get(url string, data map[string]string, header map[string]string) ([]byte, error) {
-	return Request(url, "GET", data, header)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	// 添加查询字符串参数
+	query := req.URL.Query()
+	for k, v := range data {
+		query.Add(k, v)
+	}
+
+	for k, v := range header {
+		req.Header.Add(k, v)
+	}
+
+	req.URL.RawQuery = query.Encode()
+
+	// 发送请求
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println("Get request failed!")
+		return nil, err
+	} else {
+		defer resp.Body.Close()
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			fmt.Println("Read response failed!")
+			return nil, err
+		} else {
+			return body, nil
+		}
+	}
 }
 
 func Post(url string, data map[string]string, header map[string]string) ([]byte, error) {
@@ -35,7 +70,9 @@ func Request(url, method string, param map[string]string, header map[string]stri
 
 	req.SetRequestURI(url)
 	req.Header.SetMethod(method)
-	req.Header.SetContentType("application/x-www-form-urlencoded")
+	if len(header) == 0 {
+		req.Header.SetContentType("application/x-www-form-urlencoded")
+	}
 	for k, v := range header {
 		req.Header.Set(k, v)
 	}
