@@ -5,6 +5,8 @@ import "golang.org/x/time/rate"
 var (
 	MethodGet     = "get"
 	MethodPost    = "post"
+	MethodPut     = "put"
+	MethodDelete  = "delete"
 	MethodOptions = "options"
 )
 

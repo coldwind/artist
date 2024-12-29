@@ -51,11 +51,11 @@ func (h *Service) Register(path, method string, f fasthttp.RequestHandler) {
 		h.router.OPTIONS(path, f)
 	case "head":
 		h.router.HEAD(path, f)
-	case "put":
+	case MethodPut:
 		h.router.PUT(path, f)
 	case "patch":
 		h.router.PATCH(path, f)
-	case "delete":
+	case MethodDelete:
 		h.router.DELETE(path, f)
 	}
 
