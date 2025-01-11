@@ -61,6 +61,10 @@ func (h *Service) Register(path, method string, f fasthttp.RequestHandler) {
 
 }
 
+func (h *Service) RegisterRootPath(path, rootPath string) {
+	h.router.ServeFiles(path, rootPath)
+}
+
 func (h *Service) RegisterWS(path string, msgType int, cb WSCallback) {
 	ws := &WS{
 		cb:      cb,
