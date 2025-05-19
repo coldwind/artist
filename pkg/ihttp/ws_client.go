@@ -43,3 +43,16 @@ func (w *WSClient) Send(msg []byte) {
 		ilog.Info("send chan time out")
 	}
 }
+
+func (w *WSClient) Close() {
+	w.RLock()
+	defer w.RUnlock()
+	if w.isClose {
+		return
+	}
+
+	w.isClose = true
+	close(w.sendChan)
+
+	w.conn.Close()
+}
