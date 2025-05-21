@@ -51,8 +51,5 @@ func (w *WSClient) Close() {
 		return
 	}
 
-	w.isClose = true
-	close(w.sendChan)
-
 	w.conn.Close()
 }
