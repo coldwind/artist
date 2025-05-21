@@ -41,7 +41,7 @@ var (
 func (w *WS) wsHandle(ctx *fasthttp.RequestCtx) {
 	defer func() {
 		if e := recover(); e != nil {
-			ilog.Error("[panic]", zap.String("stack", string(debug.Stack())))
+			ilog.Error("[panic]", zap.Any("e", e), zap.String("stack", string(debug.Stack())))
 		}
 	}()
 
