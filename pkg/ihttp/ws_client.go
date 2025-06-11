@@ -12,12 +12,13 @@ import (
 
 type WSClient struct {
 	sync.RWMutex
-	ConnId   int64
-	UserData interface{}
-	conn     *websocket.Conn
-	sendChan chan []byte
-	msgType  int
-	isClose  bool
+	ConnId    int64
+	UserData  interface{}
+	conn      *websocket.Conn
+	sendChan  chan []byte
+	msgType   int
+	isClose   bool
+	Heartbeat *time.Time
 }
 
 func (w *WSClient) LoopWrite() {
