@@ -18,7 +18,7 @@ type WSClient struct {
 	sendChan  chan []byte
 	msgType   int
 	isClose   bool
-	Heartbeat *time.Time
+	Heartbeat time.Time
 }
 
 func (w *WSClient) LoopWrite() {
