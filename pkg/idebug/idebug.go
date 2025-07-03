@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"strings"
 )
 
 type CallerData struct {
@@ -26,24 +27,31 @@ func GetCallerInfo() CallerData {
 }
 
 func GetProjectRootRelativePath() string {
-	res := CallerData{}
-	_, dir, _, _ := runtime.Caller(1)
-	rel := "./"
+	_, filename, _, _ := runtime.Caller(1)
+	fmt.Println(filename)
+	dir := filepath.Dir(filename)
+	up := 0
 	for {
-		if _, err := os.Stat(filepath.Join(res.Filepath, "go.mod")); err == nil {
+		if _, err := os.Stat(filepath.Join(dir, "go.mod")); err == nil {
 			break
 		}
 
 		// 检查是否已到达根目录
 		parentDir := filepath.Dir(dir)
+		fmt.Println(parentDir)
 		if parentDir == dir {
-			rel = ""
+			up = -1
+			break
 		}
 
 		// 继续向上查找
 		dir = parentDir
-		rel = fmt.Sprintf("%s../", rel)
+		up++
+
+		if up > 100 {
+			break
+		}
 	}
 
-	return rel
+	return "./" + strings.Repeat("../", up)
 }
