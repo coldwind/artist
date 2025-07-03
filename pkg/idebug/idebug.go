@@ -1,5 +1,9 @@
 package idebug
 
+// idebug在主要用于在项目开发期间调试使用
+// 方法在打包发布前需删除或不在打包文件内
+// 例如在_test.go文件中使用
+
 import (
 	"fmt"
 	"os"
@@ -26,8 +30,14 @@ func GetCallerInfo() CallerData {
 	return res
 }
 
+// 获取当前调用该函数的代码所在目录相对项目跟目录的位置
 func GetProjectRootRelativePath() string {
-	_, filename, _, _ := runtime.Caller(1)
+	return GetProjectRootRelativePathBySkip(2)
+}
+
+// 跟据skip来获取调用代码相对项目跟目录的位置
+func GetProjectRootRelativePathBySkip(skip int) string {
+	_, filename, _, _ := runtime.Caller(skip)
 	fmt.Println(filename)
 	dir := filepath.Dir(filename)
 	up := 0
