@@ -10,6 +10,7 @@ import (
 	"math/big"
 	"math/rand"
 	"net"
+	"reflect"
 	"strconv"
 	"strings"
 	"time"
@@ -176,4 +177,12 @@ func ConfusionArrayKey(arrayLen int) []int {
 	}
 
 	return keys
+}
+
+func IsNil(data interface{}) bool {
+	if data == nil {
+		return true
+	}
+
+	return reflect.ValueOf(data).IsNil()
 }
