@@ -66,7 +66,7 @@ func RealRandInt(min, max int) int {
 	return int(randNum.Int64()) + min
 }
 
-func RandByWeightInt(weight map[int]int) []int {
+func RandByWeightInt(weight map[int]int) (int, error) {
 	totalWeight := int(0)
 	for _, w := range weight {
 		totalWeight += w
@@ -76,13 +76,13 @@ func RandByWeightInt(weight map[int]int) []int {
 	for k, v := range weight {
 		weightSum += v
 		if weightSum > int(randNum.Int64()) {
-			return []int{k}
+			return k, nil
 		}
 	}
-	return nil
+	return 0, fmt.Errorf("failed to select weighted random int")
 }
 
-func RandByWeightInt32(weight map[int32]int32) []int32 {
+func RandByWeightInt32(weight map[int32]int32) (int32, error) {
 	totalWeight := int32(0)
 	for _, w := range weight {
 		totalWeight += w
@@ -92,13 +92,13 @@ func RandByWeightInt32(weight map[int32]int32) []int32 {
 	for k, v := range weight {
 		weightSum += v
 		if weightSum > int32(randNum.Int64()) {
-			return []int32{k}
+			return k, nil
 		}
 	}
-	return nil
+	return 0, fmt.Errorf("failed to select weighted random int32")
 }
 
-func RandByWeightInt64(weight map[int64]int64) []int64 {
+func RandByWeightInt64(weight map[int64]int64) (int64, error) {
 	totalWeight := int64(0)
 	for _, w := range weight {
 		totalWeight += w
@@ -108,10 +108,10 @@ func RandByWeightInt64(weight map[int64]int64) []int64 {
 	for k, v := range weight {
 		weightSum += v
 		if weightSum > randNum.Int64() {
-			return []int64{k}
+			return k, nil
 		}
 	}
-	return nil
+	return 0, fmt.Errorf("failed to select weighted random int64")
 }
 
 func RealRandInt32(min, max int32) int32 {
