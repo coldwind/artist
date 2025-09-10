@@ -50,10 +50,7 @@ func Seed() {
 
 // Rand [min, max]
 func Rand(min int32, max int32) int32 {
-	n := max - min + 1
-	randNum := rand.Int31n(n) + min
-
-	return randNum
+	return RealRandInt32(min, max)
 }
 
 // [min, max)
@@ -67,6 +64,54 @@ func RealRandInt(min, max int) int {
 	num := max - min
 	randNum, _ := crand.Int(crand.Reader, big.NewInt(int64(num)))
 	return int(randNum.Int64()) + min
+}
+
+func RandByWeightInt(weight map[int]int) []int {
+	totalWeight := int(0)
+	for _, w := range weight {
+		totalWeight += w
+	}
+	randNum, _ := crand.Int(crand.Reader, big.NewInt(int64(totalWeight)))
+	var weightSum int = 0
+	for k, v := range weight {
+		weightSum += v
+		if weightSum > int(randNum.Int64()) {
+			return []int{k}
+		}
+	}
+	return nil
+}
+
+func RandByWeightInt32(weight map[int32]int32) []int32 {
+	totalWeight := int32(0)
+	for _, w := range weight {
+		totalWeight += w
+	}
+	randNum, _ := crand.Int(crand.Reader, big.NewInt(int64(totalWeight)))
+	var weightSum int32 = 0
+	for k, v := range weight {
+		weightSum += v
+		if weightSum > int32(randNum.Int64()) {
+			return []int32{k}
+		}
+	}
+	return nil
+}
+
+func RandByWeightInt64(weight map[int64]int64) []int64 {
+	totalWeight := int64(0)
+	for _, w := range weight {
+		totalWeight += w
+	}
+	randNum, _ := crand.Int(crand.Reader, big.NewInt(int64(totalWeight)))
+	var weightSum int64 = 0
+	for k, v := range weight {
+		weightSum += v
+		if weightSum > randNum.Int64() {
+			return []int64{k}
+		}
+	}
+	return nil
 }
 
 func RealRandInt32(min, max int32) int32 {
