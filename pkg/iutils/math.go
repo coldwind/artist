@@ -1,6 +1,12 @@
 package iutils
 
-import "github.com/shopspring/decimal"
+import (
+	"errors"
+	"fmt"
+	"strings"
+
+	"github.com/shopspring/decimal"
+)
 
 func StringToInt64(num string) (int64, error) {
 	dec, err := decimal.NewFromString(num)
@@ -45,4 +51,49 @@ func StringToFloat64(num string) float64 {
 	}
 
 	return dec.InexactFloat64()
+}
+
+func StringToIntArrBySep(num string, sep string) ([]int, error) {
+	arr := strings.Split(num, sep)
+	vals := make([]int, 0, len(arr))
+	for _, v := range arr {
+		if val, err := StringToInt(v); err == nil {
+			vals = append(vals, val)
+		} else {
+			fmt.Println(err)
+			return nil, errors.New("convert error")
+		}
+	}
+
+	return vals, nil
+}
+
+func StringToInt32ArrBySep(num string, sep string) ([]int32, error) {
+	arr := strings.Split(num, sep)
+	vals := make([]int32, 0, len(arr))
+	for _, v := range arr {
+		if val, err := StringToInt32(v); err == nil {
+			vals = append(vals, val)
+		} else {
+			fmt.Println(err)
+			return nil, errors.New("convert error")
+		}
+	}
+
+	return vals, nil
+}
+
+func StringToInt64ArrBySep(num string, sep string) ([]int64, error) {
+	arr := strings.Split(num, sep)
+	vals := make([]int64, 0, len(arr))
+	for _, v := range arr {
+		if val, err := StringToInt64(v); err == nil {
+			vals = append(vals, val)
+		} else {
+			fmt.Println(err)
+			return nil, errors.New("convert error")
+		}
+	}
+
+	return vals, nil
 }
