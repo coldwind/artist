@@ -52,6 +52,47 @@ func Start(path, name string, debug bool, stdout bool) {
 	zapLog = zap.New(zapCore, caller, callerSkip)
 }
 
+func StartSimple(path, name string, debug bool, stdout bool) {
+	encoderConfig := zapcore.EncoderConfig{
+		TimeKey:        "",
+		LevelKey:       "",
+		NameKey:        "",
+		CallerKey:      "",
+		MessageKey:     "msg",
+		StacktraceKey:  "stacktrace",
+		LineEnding:     zapcore.DefaultLineEnding,
+		EncodeLevel:    zapcore.LowercaseLevelEncoder,  // 小写编码器
+		EncodeTime:     zapcore.ISO8601TimeEncoder,     // ISO8601 UTC 时间格式
+		EncodeDuration: zapcore.SecondsDurationEncoder, //
+		EncodeCaller:   zapcore.FullCallerEncoder,      // 全路径编码器
+		EncodeName:     zapcore.FullNameEncoder,
+	}
+
+	encoder := zapcore.NewConsoleEncoder(encoderConfig)
+
+	writer := getWriter(fmt.Sprintf("%s/%s", path, name))
+
+	atomicLevel := zap.NewAtomicLevel()
+
+	level := zap.InfoLevel
+	atomicLevel.SetLevel(level)
+
+	var zapCore zapcore.Core
+	if debug {
+		atomicLevel.SetLevel(zap.DebugLevel)
+	}
+	if stdout {
+		zapCore = zapcore.NewCore(encoder, zapcore.Lock(os.Stdout), atomicLevel)
+	} else {
+		zapCore = zapcore.NewCore(encoder, writer, atomicLevel)
+
+	}
+
+	caller := zap.AddCaller()
+	callerSkip := zap.AddCallerSkip(1)
+	zapLog = zap.New(zapCore, caller, callerSkip)
+}
+
 func getWriter(filename string) zapcore.WriteSyncer {
 	writeCfg := &lumberjack.Logger{
 		Filename: filename,
