@@ -5,12 +5,14 @@ import (
 	crand "crypto/rand"
 	"encoding/binary"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"math"
 	"math/big"
 	"math/rand"
 	"net"
 	"reflect"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -66,36 +68,57 @@ func RealRandInt(min, max int) int {
 	return int(randNum.Int64()) + min
 }
 
-func RandByWeightInt(weight map[int]int) (int, error) {
-	totalWeight := int(0)
-	for _, w := range weight {
-		totalWeight += w
-	}
-	randNum, _ := crand.Int(crand.Reader, big.NewInt(int64(totalWeight)))
-	var weightSum int = 0
-	for k, v := range weight {
-		weightSum += v
-		if weightSum > int(randNum.Int64()) {
-			return k, nil
-		}
-	}
-	return 0, fmt.Errorf("failed to select weighted random int")
-}
-
+// RandByWeightInt32 带权重随机返回key
+// weight: key=结果值，value=权重
 func RandByWeightInt32(weight map[int32]int32) (int32, error) {
-	totalWeight := int32(0)
-	for _, w := range weight {
-		totalWeight += w
+	// 1. 空 map 判断
+	if len(weight) == 0 {
+		return 0, errors.New("weight map is empty")
 	}
-	randNum, _ := crand.Int(crand.Reader, big.NewInt(int64(totalWeight)))
-	var weightSum int32 = 0
+
+	// 2. 计算总权重
+	totalWeight := int64(0)
+	for _, w := range weight {
+		totalWeight += int64(w)
+	}
+
+	// 3. 总权重为0判断
+	if totalWeight <= 0 {
+		return 0, errors.New("total weight is zero or negative")
+	}
+
+	// 4. 生成安全随机数 [0, totalWeight-1]
+	randNum, err := crand.Int(crand.Reader, big.NewInt(totalWeight))
+	if err != nil {
+		return 0, fmt.Errorf("generate random failed: %w", err)
+	}
+	target := randNum.Int64()
+
+	// 5. map 转为有序切片（解决遍历无序问题）
+	type pair struct {
+		key    int32
+		weight int64
+	}
+	var list []pair
 	for k, v := range weight {
-		weightSum += v
-		if weightSum > int32(randNum.Int64()) {
-			return k, nil
+		list = append(list, pair{key: k, weight: int64(v)})
+	}
+
+	// 按 key 排序，保证每次遍历顺序一致（可选，也可按权重排序）
+	sort.Slice(list, func(i, j int) bool {
+		return list[i].key < list[j].key
+	})
+
+	// 6. 权重累加匹配
+	var weightSum int64 = 0
+	for _, item := range list {
+		weightSum += item.weight
+		if weightSum > target { // 正确判断
+			return item.key, nil
 		}
 	}
-	return 0, fmt.Errorf("failed to select weighted random int32")
+
+	return 0, errors.New("no item selected, unexpected error")
 }
 
 func RandByWeightInt64(weight map[int64]int64) (int64, error) {
