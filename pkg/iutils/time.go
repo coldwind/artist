@@ -102,6 +102,24 @@ func MonthEnd() int64 {
 	return lastOfMonth.Unix()
 }
 
+// 本年的第一天时间戳
+func YearZero() int64 {
+	t := time.Now()
+	t1 := time.Date(t.Year(), 1, 1, 0, 0, 0, 0, t.Location())
+	return t1.Unix()
+}
+
+// 本年最后一天最后一刻时间戳
+func YearEnd() int64 {
+	now := time.Now()
+	// 获取当前年份的 1 月 1 号
+	firstOfYear := time.Date(now.Year(), 1, 1, 0, 0, 0, 0, now.Location())
+	// 下一年 1 月 1 号减去 1 纳秒 = 本年最后一天 23:59:59
+	lastOfYear := firstOfYear.AddDate(1, 0, 0).Add(-1 * time.Nanosecond)
+
+	return lastOfYear.Unix()
+}
+
 // SameDay 是否同一天
 func SameDay(stamp int64) bool {
 	return time.Unix(stamp, 0).Format("2006-01-02") == time.Now().Format("2006-01-02")
